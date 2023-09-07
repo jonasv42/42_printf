@@ -1,4 +1,7 @@
 libft/
+*.gch
+a.out
+*.swp
 *.a
 obj/
 .nfs*
