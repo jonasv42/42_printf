@@ -6,13 +6,13 @@
 /*   By: jvets <jvets@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/06 20:53:07 by jvets             #+#    #+#             */
-/*   Updated: 2023/09/07 19:31:09 by jvets            ###   ########.fr       */
+/*   Updated: 2023/09/07 21:10:36 by jvets            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-void	print_format(const char **str, va_list ap);
+void	print_format(const char **str, va_list ap, int *c);
 
 int	ft_printf(const char *str, ...)
 {
@@ -24,9 +24,7 @@ int	ft_printf(const char *str, ...)
 	while (*str)
 	{
 		if (*str == '%' && str[1] != '%')
-			print_format(&str, ap);
-		//else if (*str == '%' && str[1] == '%')
-		//	str += 2;
+			print_format(&str, ap, &c);
 		else
 			c += write(1, str, 1);
 		if (*str == '%' && str[1] == '%')
@@ -37,7 +35,7 @@ int	ft_printf(const char *str, ...)
 	return (c);
 }
 
-void	print_format(const char **str, va_list ap)
+void	print_format(const char **str, va_list ap, int *c)
 {
 	int	character;
 
@@ -45,7 +43,7 @@ void	print_format(const char **str, va_list ap)
 	if (**str == 'c')
 	{
 		character = va_arg(ap, int);
-		write(1, &character, 1);
+		*c += write(1, &character, 1);
 	}
 		
 }

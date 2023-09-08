@@ -1,4 +1,5 @@
 libft/
+printfTester/
 *.gch
 a.out
 *.swp
