@@ -6,7 +6,7 @@
 /*   By: jvets <jvets@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/06 20:53:07 by jvets             #+#    #+#             */
-/*   Updated: 2023/09/10 18:00:49 by jvets            ###   ########.fr       */
+/*   Updated: 2023/09/10 18:11:47 by jvets            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,8 @@ void	id_specifier(const char **str, va_list ap, int *c)
 void	print_x(unsigned int n, int **c)
 {
 	print_hexadec(n);
+	if (n == 0)
+		(**c)++;
 	while (n > 0)
 	{
 		n /= 16;
