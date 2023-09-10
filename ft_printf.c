@@ -6,7 +6,7 @@
 /*   By: jvets <jvets@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/06 20:53:07 by jvets             #+#    #+#             */
-/*   Updated: 2023/09/10 17:12:18 by jvets            ###   ########.fr       */
+/*   Updated: 2023/09/10 18:00:49 by jvets            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,11 @@
 void	print_char(const char ***str, va_list ap, int **c);
 void	id_specifier(const char **str, va_list ap, int *c);
 void	print_str(va_list ap, int **c);
-void	print_i(va_list ap, int **c);
+void	print_i(int i, int **c);
 void	ft_putnbr(int nb);
 void	print_p(va_list ap, int **c);
 void	print_hexadec(unsigned long n);
+void	print_x(unsigned int n, int **c);
 
 int	ft_printf(const char *str, ...)
 {
@@ -49,16 +50,30 @@ void	id_specifier(const char **str, va_list ap, int *c)
 
 	i = 0;
 	(*str)++;
-	while (*str[i] && !ft_strchr("csidp", *str[i]))
+	while (*str[i] && !ft_strchr("csidpux", *str[i]))
 		i++;
 	if (*str[i] == 'c')
 		print_char(&str, ap, &c);
 	else if (*str[i] == 's')
 		print_str(ap, &c);
 	else if (*str[i] == 'i' || *str[i] == 'd')
-		print_i(ap, &c);
+		print_i(va_arg(ap, int), &c);
 	else if (*str[i] == 'p')
 		print_p(ap, &c);
+	else if (*str[i] == 'u')
+		print_i(va_arg(ap, unsigned int), &c);
+	else if (*str[i] == 'x')
+		print_x(va_arg(ap, unsigned int), &c);
+}
+
+void	print_x(unsigned int n, int **c)
+{
+	print_hexadec(n);
+	while (n > 0)
+	{
+		n /= 16;
+		(**c)++;
+	}
 }
 
 void	print_hexadec(unsigned long n)
@@ -107,11 +122,8 @@ void	ft_putnbr(int nb)
 	write(1, &c, 1);
 }
 
-void	print_i(va_list ap, int **c)
+void	print_i(int i, int **c)
 {
-	int	i;
-
-	i = va_arg(ap, int);
 	ft_putnbr(i);
 	if (i <= 0)
 	{
