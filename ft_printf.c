@@ -6,7 +6,7 @@
 /*   By: jvets <jvets@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/06 20:53:07 by jvets             #+#    #+#             */
-/*   Updated: 2023/09/10 19:34:29 by jvets            ###   ########.fr       */
+/*   Updated: 2023/09/10 20:24:28 by jvets            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,11 @@ void	print_p(va_list ap, int **c)
 {
 	unsigned long	ptr_addr;
 	ptr_addr = (unsigned long)va_arg(ap, void *);
+	if (ptr_addr == 0)
+	{
+		**c += write(1, "(nil)", 5);
+		return ;
+	}
 	**c += write(1, "0x", 2);
 	print_hexadec(ptr_addr, LOWER_CASE);
 	while (ptr_addr > 0)
@@ -175,7 +180,12 @@ void	print_str(va_list ap, int **c)
 	char *str_to_print;
 
 	str_to_print = va_arg(ap, char *);
-	while (/*str_to_print != NULL && */*str_to_print)
+	if (str_to_print == NULL)
+	{
+		**c += write(1, "(null)", 6);
+		return;
+	}
+	while (*str_to_print)
 	{
 		**c += write(1, str_to_print, 1);
 		str_to_print++;
