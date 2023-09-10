@@ -6,7 +6,7 @@
 /*   By: jvets <jvets@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/06 20:53:07 by jvets             #+#    #+#             */
-/*   Updated: 2023/09/10 18:11:47 by jvets            ###   ########.fr       */
+/*   Updated: 2023/09/10 18:33:33 by jvets            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@ void	print_str(va_list ap, int **c);
 void	print_i(int i, int **c);
 void	ft_putnbr(int nb);
 void	print_p(va_list ap, int **c);
-void	print_hexadec(unsigned long n);
-void	print_x(unsigned int n, int **c);
+void	print_hexadec(unsigned long n, int case_);
+void	print_x(unsigned int n, int **c, int case_);
 
 int	ft_printf(const char *str, ...)
 {
@@ -50,7 +50,7 @@ void	id_specifier(const char **str, va_list ap, int *c)
 
 	i = 0;
 	(*str)++;
-	while (*str[i] && !ft_strchr("csidpux", *str[i]))
+	while (*str[i] && !ft_strchr("csidpuxX", *str[i]))
 		i++;
 	if (*str[i] == 'c')
 		print_char(&str, ap, &c);
@@ -63,12 +63,14 @@ void	id_specifier(const char **str, va_list ap, int *c)
 	else if (*str[i] == 'u')
 		print_i(va_arg(ap, unsigned int), &c);
 	else if (*str[i] == 'x')
-		print_x(va_arg(ap, unsigned int), &c);
+		print_x(va_arg(ap, unsigned int), &c, LOWER_CASE);
+	else if (*str[i] == 'X')
+		print_x(va_arg(ap, unsigned int), &c, UPPER_CASE);
 }
 
-void	print_x(unsigned int n, int **c)
+void	print_x(unsigned int n, int **c, int case_)
 {
-	print_hexadec(n);
+	print_hexadec(n, case_);
 	if (n == 0)
 		(**c)++;
 	while (n > 0)
@@ -78,17 +80,20 @@ void	print_x(unsigned int n, int **c)
 	}
 }
 
-void	print_hexadec(unsigned long n)
+void	print_hexadec(unsigned long n, int case_)
 {
 	char	*symbols;
 
-	symbols = "0123456789abcdef";
+	if (case_ == LOWER_CASE)
+		symbols = "0123456789abcdef";
+	else
+		symbols = "0123456789ABCDEF";
 	if (n < 16)
 		write(1, &symbols[n], 1);
 	else
 	{
-		print_hexadec(n / 16);
-		print_hexadec(n % 16);
+		print_hexadec(n / 16, case_);
+		print_hexadec(n % 16, case_);
 	}
 }
 
@@ -97,7 +102,7 @@ void	print_p(va_list ap, int **c)
 	unsigned long	ptr_addr;
 	ptr_addr = (unsigned long)va_arg(ap, void *);
 	**c += write(1, "0x", 2);
-	print_hexadec(ptr_addr);
+	print_hexadec(ptr_addr, LOWER_CASE);
 	while (ptr_addr > 0)
 	{
 		ptr_addr /= 16;
