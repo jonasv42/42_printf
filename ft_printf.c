@@ -6,7 +6,7 @@
 /*   By: jvets <jvets@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/06 20:53:07 by jvets             #+#    #+#             */
-/*   Updated: 2023/09/10 14:30:46 by jvets            ###   ########.fr       */
+/*   Updated: 2023/09/10 17:12:18 by jvets            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ void	id_specifier(const char **str, va_list ap, int *c);
 void	print_str(va_list ap, int **c);
 void	print_i(va_list ap, int **c);
 void	ft_putnbr(int nb);
+void	print_p(va_list ap, int **c);
+void	print_hexadec(unsigned long n);
 
 int	ft_printf(const char *str, ...)
 {
@@ -47,14 +49,43 @@ void	id_specifier(const char **str, va_list ap, int *c)
 
 	i = 0;
 	(*str)++;
-	while (*str[i] && !ft_strchr("csi", *str[i]))
+	while (*str[i] && !ft_strchr("csidp", *str[i]))
 		i++;
 	if (*str[i] == 'c')
 		print_char(&str, ap, &c);
 	else if (*str[i] == 's')
 		print_str(ap, &c);
-	else if (*str[i] == 'i')
+	else if (*str[i] == 'i' || *str[i] == 'd')
 		print_i(ap, &c);
+	else if (*str[i] == 'p')
+		print_p(ap, &c);
+}
+
+void	print_hexadec(unsigned long n)
+{
+	char	*symbols;
+
+	symbols = "0123456789abcdef";
+	if (n < 16)
+		write(1, &symbols[n], 1);
+	else
+	{
+		print_hexadec(n / 16);
+		print_hexadec(n % 16);
+	}
+}
+
+void	print_p(va_list ap, int **c)
+{
+	unsigned long	ptr_addr;
+	ptr_addr = (unsigned long)va_arg(ap, void *);
+	**c += write(1, "0x", 2);
+	print_hexadec(ptr_addr);
+	while (ptr_addr > 0)
+	{
+		ptr_addr /= 16;
+		(**c)++;
+	}
 }
 
 void	ft_putnbr(int nb)
