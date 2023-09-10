@@ -6,7 +6,7 @@
 /*   By: jvets <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/07 19:32:02 by jvets             #+#    #+#             */
-/*   Updated: 2023/09/07 21:08:37 by jvets            ###   ########.fr       */
+/*   Updated: 2023/09/10 13:45:08 by jvets            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,38 @@
 
 int	main(void)
 {
-	printf("%%dkd\n");
-	ft_printf("%%dkd");
+	printf("MANDATÓRIO\n\n");
+	printf("Char\n");
+	printf("%c\n", 'a');
+	ft_printf("%c\n\n", 'a');
+	printf("%c%c%c\n", 'a', 'b', 'c');
+	ft_printf("%c%c%c\n\n", 'a', 'b', 'c');
+	printf("%cb%c\n", 'a', 'c');
+	ft_printf("%cb%c\n\n", 'a', 'c');
+
+	printf("String\n");
+	printf("%s\n", "abc");
+	ft_printf("%s\n\n", "abc");
+	printf("%s %s\n", "abc", "def");
+	ft_printf("%s %s\n\n", "abc", "def");
+	//printf(" NULL %s NULL ", NULL);
+
+
+	printf("BONUS\n\n");
+	printf("flag specifier 0\n");
+	printf("%10c\n", 'a');
+	ft_printf("%10c\n\n", 'a');
+	printf("%5c\n", 'a');
+	ft_printf("%5c\n\n", 'a');
+
+
+	printf("%+i\n", 10);
+	printf("%8i\n", 10);
+	printf("%-8i\n", 10);
+	printf("%08i\n", 10);
+	printf("%+08i\n", 10);
+	printf("%+-8i\n", 10);
+	printf("%-+8i\n", 10);
+	//ft_printf("%%dkd");
 	return (0);
 }
