@@ -6,7 +6,7 @@
 /*   By: jvets <jvets@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/06 20:53:07 by jvets             #+#    #+#             */
-/*   Updated: 2023/09/10 13:48:39 by jvets            ###   ########.fr       */
+/*   Updated: 2023/09/10 14:30:46 by jvets            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 void	print_char(const char ***str, va_list ap, int **c);
 void	id_specifier(const char **str, va_list ap, int *c);
 void	print_str(va_list ap, int **c);
+void	print_i(va_list ap, int **c);
+void	ft_putnbr(int nb);
 
 int	ft_printf(const char *str, ...)
 {
@@ -45,12 +47,51 @@ void	id_specifier(const char **str, va_list ap, int *c)
 
 	i = 0;
 	(*str)++;
-	while (*str[i] && !ft_strchr("cs", *str[i]))
+	while (*str[i] && !ft_strchr("csi", *str[i]))
 		i++;
 	if (*str[i] == 'c')
 		print_char(&str, ap, &c);
 	else if (*str[i] == 's')
 		print_str(ap, &c);
+	else if (*str[i] == 'i')
+		print_i(ap, &c);
+}
+
+void	ft_putnbr(int nb)
+{
+	char c;
+	if (nb == -2147483648)
+	{
+		write(1, "-2147483648", 11);
+		return ;
+	}
+	if (nb < 0)
+	{
+		write(1, "-", 1);
+		nb = -nb;
+	}
+	if (nb > 9)
+		ft_putnbr(nb / 10);
+	c = (nb % 10) + '0';
+	write(1, &c, 1);
+}
+
+void	print_i(va_list ap, int **c)
+{
+	int	i;
+
+	i = va_arg(ap, int);
+	ft_putnbr(i);
+	if (i <= 0)
+	{
+		i *= -1;
+		(**c)++;
+	}
+	while (i)
+	{
+		i = i / 10;
+		(**c)++;
+	}
 }
 
 void	print_str(va_list ap, int **c)

@@ -6,7 +6,7 @@
 /*   By: jvets <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/07 19:32:02 by jvets             #+#    #+#             */
-/*   Updated: 2023/09/10 13:45:08 by jvets            ###   ########.fr       */
+/*   Updated: 2023/09/10 14:18:28 by jvets            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,9 @@ int	main(void)
 	ft_printf("%s %s\n\n", "abc", "def");
 	//printf(" NULL %s NULL ", NULL);
 
+	printf("Int\n");
+	printf("%i\n", 5);
+	ft_printf("%i\n", 5);
 
 	printf("BONUS\n\n");
 	printf("flag specifier 0\n");
