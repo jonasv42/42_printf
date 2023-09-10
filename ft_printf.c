@@ -6,7 +6,7 @@
 /*   By: jvets <jvets@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/06 20:53:07 by jvets             #+#    #+#             */
-/*   Updated: 2023/09/10 18:33:33 by jvets            ###   ########.fr       */
+/*   Updated: 2023/09/10 19:34:29 by jvets            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ void	ft_putnbr(int nb);
 void	print_p(va_list ap, int **c);
 void	print_hexadec(unsigned long n, int case_);
 void	print_x(unsigned int n, int **c, int case_);
+void	print_u(unsigned int i, int **c);
+void	ft_put_unsigned_nbr(unsigned int nb);
 
 int	ft_printf(const char *str, ...)
 {
@@ -61,7 +63,7 @@ void	id_specifier(const char **str, va_list ap, int *c)
 	else if (*str[i] == 'p')
 		print_p(ap, &c);
 	else if (*str[i] == 'u')
-		print_i(va_arg(ap, unsigned int), &c);
+		print_u(va_arg(ap, unsigned int), &c);
 	else if (*str[i] == 'x')
 		print_x(va_arg(ap, unsigned int), &c, LOWER_CASE);
 	else if (*str[i] == 'X')
@@ -127,6 +129,30 @@ void	ft_putnbr(int nb)
 		ft_putnbr(nb / 10);
 	c = (nb % 10) + '0';
 	write(1, &c, 1);
+}
+
+
+void	ft_put_unsigned_nbr(unsigned int nb)
+{
+	char c;
+	if (nb > 9)
+		ft_put_unsigned_nbr(nb / 10);
+	c = (nb % 10) + '0';
+	write(1, &c, 1);
+}
+
+void	print_u(unsigned int i, int **c)
+{
+	if (i < 0)
+		return ;
+	ft_put_unsigned_nbr(i);
+	if (i == 0)
+		(**c)++;
+	while (i)
+	{
+		i = i / 10;
+		(**c)++;
+	}
 }
 
 void	print_i(int i, int **c)

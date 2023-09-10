@@ -6,7 +6,7 @@
 /*   By: jvets <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/07 19:32:02 by jvets             #+#    #+#             */
-/*   Updated: 2023/09/10 18:07:10 by jvets            ###   ########.fr       */
+/*   Updated: 2023/09/10 19:14:47 by jvets            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,11 +37,14 @@ int	main(void)
 
 	printf("Pointer\n");
 	int i = 1;
+	int c = 0;
 	printf("%p\n", &i);
-	ft_printf("%p\n\n", &i);
+	ft_printf("%p\n", &i);
+	printf(" %p %p \n", &c, &c);
+	ft_printf(" %p %p \n", &c, &c);
 
 	printf("Unsinged\n");
-	printf("%u\n", -1);
+	printf("printf: %u\n", -1);
 	ft_printf("%u\n\n", -1);
 
 	printf("flag specifier x\n");
