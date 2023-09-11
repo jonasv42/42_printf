@@ -1,4 +1,5 @@
 libft/
+*.o
 *.swn
 *.swo
 printfTester/
