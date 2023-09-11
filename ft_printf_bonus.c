@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf.c                                        :+:      :+:    :+:   */
+/*   ft_printf_bonus.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jvets <jvets@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/06 20:53:07 by jvets             #+#    #+#             */
-/*   Updated: 2023/09/11 17:59:28 by jvets            ###   ########.fr       */
+/*   Updated: 2023/09/11 20:58:02 by jvets            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "ft_printf_bonus.h"
 
 int	ft_printf(const char *str, ...)
 {
@@ -43,6 +43,7 @@ void	id_specifier(const char **str, va_list ap, int *c)
 	(*str)++;
 	while (*str[i] && !ft_strchr("csidpuxX", *str[i]))
 		i++;
+	process_flags(ft_substr(*str, 0, i));
 	if (*str[i] == 'c')
 		print_char(&str, ap, &c);
 	else if (*str[i] == 's')
@@ -57,6 +58,25 @@ void	id_specifier(const char **str, va_list ap, int *c)
 		print_x(va_arg(ap, unsigned int), &c, LOWER_CASE);
 	else if (*str[i] == 'X')
 		print_x(va_arg(ap, unsigned int), &c, UPPER_CASE);
+}
+
+void	process_flags(char *flags)
+{
+	int	i;
+	char	*ptr_to_free;
+	int	min_len;
+	int	align_left;
+
+	i = 0;
+	ptr_to_free = flags;
+	while ((*flags < '1') && (*flags > '9'))
+	{
+		if (*flags == '-')
+			align_left = 1;
+		flags++;
+	}
+	min_len = ft_atoi(flags);
+	free(ptr_to_free);
 }
 
 void	print_x(unsigned int n, int **c, int case_)
