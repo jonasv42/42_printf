@@ -6,7 +6,7 @@
 /*   By: jvets <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/07 19:32:02 by jvets             #+#    #+#             */
-/*   Updated: 2023/09/10 20:17:38 by jvets            ###   ########.fr       */
+/*   Updated: 2023/09/11 17:13:46 by jvets            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	main(void)
 	ft_printf("%s\n\n", "abc");
 	printf("%s %s\n", "abc", "def");
 	ft_printf("%s %s\n\n", "abc", "def");
-	printf(" NULL %s NULL ", NULL);
+	//printf(" NULL %s NULL ", NULL);
 
 	printf("Int\n");
 	printf("%i\n", 5);
