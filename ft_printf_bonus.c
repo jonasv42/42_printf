@@ -6,7 +6,7 @@
 /*   By: jvets <jvets@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/06 20:53:07 by jvets             #+#    #+#             */
-/*   Updated: 2023/09/12 17:17:32 by jvets            ###   ########.fr       */
+/*   Updated: 2023/09/12 18:03:45 by jvets            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	id_specifier(const char **str, va_list ap, int *c)
 		print_char(ap, &c, flag_ids);
 	else if ((*str)[0] == 's')
 		print_str(ap, &c, flag_ids);
-	else if ((*str)[0] == 'i' || *str[i] == 'd')
+	else if ((*str)[0] == 'i' || *str[0] == 'd')
 		print_i(va_arg(ap, int), &c, flag_ids);
 	else if ((*str)[0] == 'p')
 		print_p(ap, &c);
