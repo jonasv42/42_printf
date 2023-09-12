@@ -6,7 +6,7 @@
 /*   By: jvets <jvets@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/06 21:16:31 by jvets             #+#    #+#             */
-/*   Updated: 2023/09/11 20:33:39 by jvets            ###   ########.fr       */
+/*   Updated: 2023/09/11 21:30:03 by jvets            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,11 @@
 
 # define LOWER_CASE 0
 # define UPPER_CASE 1
+
+typedef struct p_flags {
+	int	align_left;
+	int	min_len;
+}	p_flag;
 
 int		ft_printf(const char *str, ...);
 void	print_char(const char ***str, va_list ap, int **c);
