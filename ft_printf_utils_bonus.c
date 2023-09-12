@@ -6,7 +6,7 @@
 /*   By: jvets <jvets@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 20:43:37 by jvets             #+#    #+#             */
-/*   Updated: 2023/09/12 17:12:15 by jvets            ###   ########.fr       */
+/*   Updated: 2023/09/12 17:43:31 by jvets            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,19 +68,34 @@ void	print_u(unsigned int i, int **c)
 	}
 }
 
-void	print_i(int i, int **c)
+void	print_i(int i, int **c, p_flag flag_ids)
 {
+	int 	len;
+	int	aux;
+	int	len_dif;
+
+	len = 0;
+	aux = i;
+	if (aux <= 0)
+	{
+		aux *= -1;
+		len++;
+	}
+	while (aux)
+	{
+		aux = aux / 10;
+		len++;
+	}
+	**c += len;
+	len_dif = (flag_ids.min_len - len);
+	while (len_dif > 0 && flag_ids.align_left == 0)
+	{
+		**c += write(1, " ", 1);
+		len_dif--;
+	}
 	ft_putnbr(i);
-	if (i <= 0)
-	{
-		i *= -1;
-		(**c)++;
-	}
-	while (i)
-	{
-		i = i / 10;
-		(**c)++;
-	}
+	while (len_dif-- > 0 && flag_ids.align_left == 1)
+		**c += write(1, " ", 1);
 }
 
 void	print_p(va_list ap, int **c)
