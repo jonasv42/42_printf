@@ -6,15 +6,16 @@
 /*   By: jvets <jvets@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 20:43:37 by jvets             #+#    #+#             */
-/*   Updated: 2023/09/11 21:55:00 by jvets            ###   ########.fr       */
+/*   Updated: 2023/09/12 17:12:15 by jvets            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf_bonus.h"
 
-void	print_str(va_list ap, int **c)
+void	print_str(va_list ap, int **c, p_flag flag_ids)
 {
 	char	*str_to_print;
+	long int	len_dif;
 
 	str_to_print = va_arg(ap, char *);
 	if (str_to_print == NULL)
@@ -22,11 +23,22 @@ void	print_str(va_list ap, int **c)
 		**c += write(1, "(null)", 6);
 		return ;
 	}
+	len_dif = (flag_ids.min_len - ft_strlen(str_to_print));
+	while (len_dif > 0 && flag_ids.align_left == 0)
+	{
+		**c += write(1, " ", 1);
+		len_dif--;
+	}	
 	while (*str_to_print)
 	{
 		**c += write(1, str_to_print, 1);
 		str_to_print++;
 	}
+	while (len_dif > 0 && flag_ids.align_left == 1)
+	{
+		**c += write(1, " ", 1);	
+		len_dif--;
+	}	
 }
 
 void	print_char(va_list ap, int **c, p_flag flag_ids)

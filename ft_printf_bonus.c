@@ -6,7 +6,7 @@
 /*   By: jvets <jvets@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/06 20:53:07 by jvets             #+#    #+#             */
-/*   Updated: 2023/09/11 23:15:28 by jvets            ###   ########.fr       */
+/*   Updated: 2023/09/12 16:57:09 by jvets            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	id_specifier(const char **str, va_list ap, int *c)
 	if ((*str)[0] == 'c')
 		print_char(ap, &c, flag_ids);
 	else if ((*str)[0] == 's')
-		print_str(ap, &c);
+		print_str(ap, &c, flag_ids);
 	else if ((*str)[0] == 'i' || *str[i] == 'd')
 		print_i(va_arg(ap, int), &c);
 	else if ((*str)[0] == 'p')
@@ -72,7 +72,7 @@ p_flag	process_flags(char *flags)
 	flag_ids.align_left = 0;
 	flag_ids.min_len = 0;
 	ptr_to_free = flags;
-	while (*flags && (((*flags) < '1') || ((*flags) > '9'))) //doesn't enter while loop when *flags is -
+	while (*flags && (((*flags) < '1') || ((*flags) > '9')))
 	{
 		if ((*flags) == '-')
 			flag_ids.align_left = 1;

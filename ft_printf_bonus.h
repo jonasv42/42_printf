@@ -6,7 +6,7 @@
 /*   By: jvets <jvets@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/06 21:16:31 by jvets             #+#    #+#             */
-/*   Updated: 2023/09/11 21:42:21 by jvets            ###   ########.fr       */
+/*   Updated: 2023/09/12 16:57:24 by jvets            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ typedef struct p_flags {
 
 int		ft_printf(const char *str, ...);
 void	print_char(va_list ap, int **c, p_flag flag_ids);
-void	print_str(va_list ap, int **c);
+void	print_str(va_list ap, int **c, p_flag flag_ids);
 void	print_i(int i, int **c);
 void	ft_putnbr(int nb);
 void	print_p(va_list ap, int **c);
