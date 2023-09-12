@@ -6,7 +6,7 @@
 /*   By: jvets <jvets@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 20:43:37 by jvets             #+#    #+#             */
-/*   Updated: 2023/09/11 20:34:09 by jvets            ###   ########.fr       */
+/*   Updated: 2023/09/11 21:55:00 by jvets            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,15 +29,17 @@ void	print_str(va_list ap, int **c)
 	}
 }
 
-void	print_char(const char ***str, va_list ap, int **c)
+void	print_char(va_list ap, int **c, p_flag flag_ids)
 {
 	int	character;
 
-	if (***str == 'c')
-	{
-		character = va_arg(ap, int);
+	character = va_arg(ap, int);
+	if (flag_ids.align_left == 1)
 		**c += write(1, &character, 1);
-	}
+	while (--flag_ids.min_len > 0)
+		**c += write(1, " ", 1);
+	if (flag_ids.align_left == 0)
+		**c += write(1, &character, 1);
 }
 
 void	print_u(unsigned int i, int **c)

@@ -6,7 +6,7 @@
 /*   By: jvets <jvets@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/06 20:53:07 by jvets             #+#    #+#             */
-/*   Updated: 2023/09/11 21:24:35 by jvets            ###   ########.fr       */
+/*   Updated: 2023/09/11 23:15:28 by jvets            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,45 +38,49 @@ int	ft_printf(const char *str, ...)
 void	id_specifier(const char **str, va_list ap, int *c)
 {
 	int	i;
+	p_flag	flag_ids;
 
 	i = 0;
 	(*str)++;
-	while (*str[i] && !ft_strchr("csidpuxX", *str[i]))
+	while ((*str)[i] && !ft_strchr("csidpuxX", (*str)[i]))
 		i++;
-	process_flags(ft_substr(*str, 0, i));
-	if (*str[i] == 'c')
-		print_char(&str, ap, &c);
-	else if (*str[i] == 's')
+	flag_ids = process_flags(ft_substr(*str, 0, i));
+	(*str) += i;
+	if ((*str)[0] == 'c')
+		print_char(ap, &c, flag_ids);
+	else if ((*str)[0] == 's')
 		print_str(ap, &c);
-	else if (*str[i] == 'i' || *str[i] == 'd')
+	else if ((*str)[0] == 'i' || *str[i] == 'd')
 		print_i(va_arg(ap, int), &c);
-	else if (*str[i] == 'p')
+	else if ((*str)[0] == 'p')
 		print_p(ap, &c);
-	else if (*str[i] == 'u')
+	else if ((*str)[0] == 'u')
 		print_u(va_arg(ap, unsigned int), &c);
-	else if (*str[i] == 'x')
+	else if ((*str)[0] == 'x')
 		print_x(va_arg(ap, unsigned int), &c, LOWER_CASE);
-	else if (*str[i] == 'X')
+	else if ((*str)[0] == 'X')
 		print_x(va_arg(ap, unsigned int), &c, UPPER_CASE);
 }
 
-void	process_flags(char *flags)
+p_flag	process_flags(char *flags)
 {
 	int	i;
 	char	*ptr_to_free;
-	int	min_len;
-	int	align_left;
+	p_flag	flag_ids;
 
 	i = 0;
+	flag_ids.align_left = 0;
+	flag_ids.min_len = 0;
 	ptr_to_free = flags;
-	while ((*flags < '1') && (*flags > '9'))
+	while (*flags && (((*flags) < '1') || ((*flags) > '9'))) //doesn't enter while loop when *flags is -
 	{
-		if (*flags == '-')
-			align_left = 1;
+		if ((*flags) == '-')
+			flag_ids.align_left = 1;
 		flags++;
 	}
-	min_len = ft_atoi(flags);
+	flag_ids.min_len = ft_atoi(flags);
 	free(ptr_to_free);
+	return (flag_ids);
 }
 
 void	print_x(unsigned int n, int **c, int case_)

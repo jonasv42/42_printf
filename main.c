@@ -6,7 +6,7 @@
 /*   By: jvets <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/07 19:32:02 by jvets             #+#    #+#             */
-/*   Updated: 2023/09/11 17:13:46 by jvets            ###   ########.fr       */
+/*   Updated: 2023/09/11 22:56:14 by jvets            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,10 @@ int	main(void)
 
 	printf("BONUS\n\n");
 	printf("flag specifier 0\n");
+	printf("%5c\n", 'j');
+	ft_printf("%5c\n", 'j');
+	printf("%-5c%c\n", 'j', '|');
+	ft_printf("%-5c%c\n", 'j', '|');
 	printf("%10c\n", 'a');
 	ft_printf("%10c\n\n", 'a');
 	printf("%5c\n", 'a');
