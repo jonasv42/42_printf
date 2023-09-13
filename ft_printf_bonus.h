@@ -6,7 +6,7 @@
 /*   By: jvets <jvets@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/06 21:16:31 by jvets             #+#    #+#             */
-/*   Updated: 2023/09/12 20:52:24 by jvets            ###   ########.fr       */
+/*   Updated: 2023/09/12 21:15:32 by jvets            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	print_p(va_list ap, int **c, p_flag flag_ids);
 void	print_u(unsigned int i, int **c, p_flag flag_ids);
 void	ft_put_unsigned_nbr(unsigned int nb);
 void	id_specifier(const char **str, va_list ap, int *c);
-void	print_x(unsigned int n, int **c, int case_);
+void	print_x(unsigned int n, int **c, int case_, p_flag flag_ids);
 void	print_hexadec(unsigned long n, int case_);
 p_flag	process_flags(char *flags);
 

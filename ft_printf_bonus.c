@@ -6,7 +6,7 @@
 /*   By: jvets <jvets@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/06 20:53:07 by jvets             #+#    #+#             */
-/*   Updated: 2023/09/12 20:58:42 by jvets            ###   ########.fr       */
+/*   Updated: 2023/09/12 21:36:47 by jvets            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,9 +57,9 @@ void	id_specifier(const char **str, va_list ap, int *c)
 	else if ((*str)[0] == 'u')
 		print_u(va_arg(ap, unsigned int), &c, flag_ids);
 	else if ((*str)[0] == 'x')
-		print_x(va_arg(ap, unsigned int), &c, LOWER_CASE);
+		print_x(va_arg(ap, unsigned int), &c, LOWER_CASE, flag_ids);
 	else if ((*str)[0] == 'X')
-		print_x(va_arg(ap, unsigned int), &c, UPPER_CASE);
+		print_x(va_arg(ap, unsigned int), &c, UPPER_CASE, flag_ids);
 }
 
 p_flag	process_flags(char *flags)
@@ -83,15 +83,31 @@ p_flag	process_flags(char *flags)
 	return (flag_ids);
 }
 
-void	print_x(unsigned int n, int **c, int case_)
+void	print_x(unsigned int n, int **c, int case_, p_flag flag_ids)
 {
-	print_hexadec(n, case_);
+	unsigned int	aux;
+	int		len;
+
+	aux = n;
+	len = 0;
 	if (n == 0)
-		(**c)++;
+		len++;
 	while (n > 0)
 	{
 		n /= 16;
-		(**c)++;
+		len++;
+	}
+	while (flag_ids.min_len > len && flag_ids.align_left == 0)
+	{
+		**c += write(1, " ", 1);
+		flag_ids.min_len--;
+	}
+	print_hexadec(aux, case_);
+	**c += len;
+	while (flag_ids.min_len > len && flag_ids.align_left == 1)
+	{
+		**c += write(1, " ", 1);
+		flag_ids.min_len--;
 	}
 }
 
