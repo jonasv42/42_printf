@@ -6,7 +6,7 @@
 /*   By: jvets <jvets@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 20:43:37 by jvets             #+#    #+#             */
-/*   Updated: 2023/09/12 22:16:13 by jvets            ###   ########.fr       */
+/*   Updated: 2023/09/12 22:20:04 by jvets            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,10 @@ void	print_u(unsigned int i, int **c, p_flag flag_ids)
 	**c += len;
 	while (flag_ids.min_len > len && flag_ids.align_left == 0)
 	{
-		**c += write(1, " ", 1);
+		if (flag_ids.zero == 1)
+			**c += write(1, "0", 1);
+		else
+			**c += write(1, " ", 1);
 		flag_ids.min_len--;
 	}
 	ft_put_unsigned_nbr(aux);
