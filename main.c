@@ -6,7 +6,7 @@
 /*   By: jvets <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/07 19:32:02 by jvets             #+#    #+#             */
-/*   Updated: 2023/09/13 18:15:50 by jvets            ###   ########.fr       */
+/*   Updated: 2023/09/13 19:15:18 by jvets            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,12 @@
 
 int	main(void)
 {
+	printf("printf: %#x\n", 0);
+	ft_printf("printf: %.#x\n", 0);
+	printf("printf: %#x\n", -1);
+	ft_printf("printf: %.#x\n", -1);
+	printf("printf: %#x\n", 1);
+	ft_printf("printf: %.#x\n", 1);
 	printf("printf: %.2x\n", 1);
 	ft_printf("printf: %.2x\n", 1);
 	printf("printf: %.2x\n", 10);

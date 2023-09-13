@@ -6,7 +6,7 @@
 /*   By: jvets <jvets@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/06 20:53:07 by jvets             #+#    #+#             */
-/*   Updated: 2023/09/13 18:20:58 by jvets            ###   ########.fr       */
+/*   Updated: 2023/09/13 19:25:13 by jvets            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ p_flag	process_flags(char *flags)
 	flag_ids.min_len = 0;
 	flag_ids.zero = 0;
 	flag_ids.precision = 0;
+	flag_ids.sharp = 0;
 	ptr_to_free = flags;
 	while (*flags && (((*flags) < '1') || ((*flags) > '9')))
 	{
@@ -82,6 +83,8 @@ p_flag	process_flags(char *flags)
 			flag_ids.zero = 1;
 		if ((*flags) == '.') // what about interaction with 0?
 			flag_ids.precision = 1;
+		if ((*flags) == '#')
+			flag_ids.sharp = 1;
 		flags++;
 	}
 	flag_ids.min_len = ft_atoi(flags); // change name of min_len to include precision
@@ -110,6 +113,13 @@ void	print_x(unsigned int n, int **c, int case_, p_flag flag_ids)
 		else
 			**c += write(1, " ", 1);
 		flag_ids.min_len--;
+	}
+	if (flag_ids.sharp == 1 && aux != 0)
+	{
+		if (case_ == LOWER_CASE)
+			**c += write(1, "0x", 2);
+		else
+			**c += write(1, "0X", 2);
 	}
 	print_hexadec(aux, case_);
 	**c += len;
