@@ -6,7 +6,7 @@
 /*   By: jvets <jvets@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 20:43:37 by jvets             #+#    #+#             */
-/*   Updated: 2023/09/12 21:11:49 by jvets            ###   ########.fr       */
+/*   Updated: 2023/09/12 22:16:13 by jvets            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,17 @@ void	print_i(int i, int **c, p_flag flag_ids)
 	len_dif = (flag_ids.min_len - len);
 	while (len_dif > 0 && flag_ids.align_left == 0)
 	{
-		**c += write(1, " ", 1);
+		if (flag_ids.zero == 1)
+		{
+			if (i < 0)
+			{
+				write(1, "-", 1);
+				i *= -1;
+			}
+			**c += write(1, "0", 1);
+		}
+		else
+			**c += write(1, " ", 1);
 		len_dif--;
 	}
 	ft_putnbr(i);

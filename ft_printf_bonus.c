@@ -6,7 +6,7 @@
 /*   By: jvets <jvets@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/06 20:53:07 by jvets             #+#    #+#             */
-/*   Updated: 2023/09/12 21:36:47 by jvets            ###   ########.fr       */
+/*   Updated: 2023/09/12 21:48:41 by jvets            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,11 +71,14 @@ p_flag	process_flags(char *flags)
 	i = 0;
 	flag_ids.align_left = 0;
 	flag_ids.min_len = 0;
+	flag_ids.zero = 0;
 	ptr_to_free = flags;
 	while (*flags && (((*flags) < '1') || ((*flags) > '9')))
 	{
 		if ((*flags) == '-')
 			flag_ids.align_left = 1;
+		if ((*flags) == '0')
+			flag_ids.zero = 1;
 		flags++;
 	}
 	flag_ids.min_len = ft_atoi(flags);
