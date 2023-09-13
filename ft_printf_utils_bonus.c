@@ -6,7 +6,7 @@
 /*   By: jvets <jvets@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 20:43:37 by jvets             #+#    #+#             */
-/*   Updated: 2023/09/12 22:20:04 by jvets            ###   ########.fr       */
+/*   Updated: 2023/09/13 17:34:11 by jvets            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,21 +23,32 @@ void	print_str(va_list ap, int **c, p_flag flag_ids)
 		**c += write(1, "(null)", 6);
 		return ;
 	}
-	len_dif = (flag_ids.min_len - ft_strlen(str_to_print));
-	while (len_dif > 0 && flag_ids.align_left == 0)
+	if (flag_ids.precision == 0)
 	{
-		**c += write(1, " ", 1);
-		len_dif--;
-	}	
-	while (*str_to_print)
-	{
-		**c += write(1, str_to_print, 1);
-		str_to_print++;
+		len_dif = (flag_ids.min_len - ft_strlen(str_to_print));
+		while (len_dif > 0 && flag_ids.align_left == 0)
+		{
+			**c += write(1, " ", 1);
+			len_dif--;
+		}	
+		while (*str_to_print)
+		{
+			**c += write(1, str_to_print, 1);
+			str_to_print++;
+		}
+		while (len_dif > 0 && flag_ids.align_left == 1)
+		{
+			**c += write(1, " ", 1);	
+			len_dif--;
+		}
 	}
-	while (len_dif > 0 && flag_ids.align_left == 1)
+	else
 	{
-		**c += write(1, " ", 1);	
-		len_dif--;
+		while (*str_to_print && flag_ids.min_len-- > 0)
+		{
+			**c += write(1, str_to_print, 1);
+			str_to_print++;
+		}
 	}	
 }
 
@@ -102,26 +113,41 @@ void	print_i(int i, int **c, p_flag flag_ids)
 		aux = aux / 10;
 		len++;
 	}
-	**c += len;
-	len_dif = (flag_ids.min_len - len);
-	while (len_dif > 0 && flag_ids.align_left == 0)
-	{
-		if (flag_ids.zero == 1)
+	//if (flag_ids.precision == 0)
+	//{
+		**c += len;
+		len_dif = (flag_ids.min_len - len);
+		if (flag_ids.precision == 1 && i < 0)
+			len_dif++; // added b/c %.2i -1 resulted in -1 and not -01
+		while (len_dif > 0 && flag_ids.align_left == 0)
 		{
-			if (i < 0)
+			if (flag_ids.zero == 1 || flag_ids.precision == 1)
 			{
-				write(1, "-", 1);
-				i *= -1;
+				if (i < 0)
+				{
+					write(1, "-", 1);
+					i *= -1;
+				}
+				**c += write(1, "0", 1);
 			}
-			**c += write(1, "0", 1);
+			else
+				**c += write(1, " ", 1);
+			len_dif--;
 		}
-		else
+		ft_putnbr(i);
+		while (len_dif-- > 0 && flag_ids.align_left == 1)
 			**c += write(1, " ", 1);
-		len_dif--;
-	}
-	ft_putnbr(i);
-	while (len_dif-- > 0 && flag_ids.align_left == 1)
-		**c += write(1, " ", 1);
+	//}
+	/*else
+	{
+		len_dif = flag_ids.min_len - len;
+		while (len_dif++ < 0)
+		{
+			i /= 10;
+			(**c)++;
+		}
+		ft_putnbr(i);
+	}*/
 }
 
 void	print_p(va_list ap, int **c, p_flag flag_ids)

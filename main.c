@@ -6,7 +6,7 @@
 /*   By: jvets <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/07 19:32:02 by jvets             #+#    #+#             */
-/*   Updated: 2023/09/12 22:12:41 by jvets            ###   ########.fr       */
+/*   Updated: 2023/09/13 17:20:08 by jvets            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,28 @@
 
 int	main(void)
 {
+	printf("printf: %.2i\n", -1);
+	ft_printf("printf: %.2i\n", -1);
+	printf("printf: %.4i\n", 15);
+	ft_printf("printf: %.4i\n", 15);
+	printf("printf: %.s\n", "");
+	ft_printf("ft_printf: %.s\n", "");
+        printf("printf:  %.1s\n", "");
+        ft_printf("ft_printf:  %.1s\n", "");
+        printf("printf: %.1s \n", "");
+        ft_printf("ft_printf: %.1s \n", "");
+        printf(" %.s \n", "");
+        ft_printf(" %.s \n", "");
+        printf(" %.s \n", "-");
+        ft_printf(" %.s \n", "-");
+        printf(" %.2s %.1s \n", "", "-");
+        ft_printf(" %.2s %.1s \n", "", "-");
+        printf(" %.3s %.2s \n", " - ", "");
+        ft_printf(" %.3s %.2s \n", " - ", "");
+        printf("pf: %.1s %.2s %.3s %.4s \n", " - ", "", "4", "");
+        ft_printf("ft: %.1s %.2s %.3s %.4s \n", " - ", "", "4", "");
+        printf("pf: %.2s %.3s %.4s %.5s %.1s \n", "abc", "", "d", "", "ef");
+        ft_printf("ft: %.2s %.3s %.4s %.5s %.1s \n", "abc", "", "d", "", "ef");
 	printf("%04d\n", -14);
 	ft_printf("%04d\n\n", -14);
 	printf("%04d\n", 9);
