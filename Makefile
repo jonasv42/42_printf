@@ -6,7 +6,7 @@
 #    By: jvets <jvets@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/09/06 17:41:05 by jvets             #+#    #+#              #
-#    Updated: 2023/09/11 18:56:17 by jvets            ###   ########.fr        #
+#    Updated: 2023/09/12 18:14:07 by jvets            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,6 +40,8 @@ $(BONUS_OBJ_DIR)/%.o: $(BONUS_SOURCES)
 	mkdir -p $(BONUS_OBJ_DIR)
 	cc $(FLAGS) -c $< -o $@ -I ft_printf_bonus.h
 
+main: bonus
+	cc -g3 $(FLAGS) main.c $(BONUS_SOURCES) ft_printf_bonus.h libftprintf.a
 clean:
 	rm -rf $(OBJ_DIR) $(BONUS_OBJ_DIR)
 	make -C libft clean
@@ -50,4 +52,4 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all bonus clean fclean re
+.PHONY: all bonus main clean fclean re

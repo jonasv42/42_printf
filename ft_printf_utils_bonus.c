@@ -6,7 +6,7 @@
 /*   By: jvets <jvets@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 20:43:37 by jvets             #+#    #+#             */
-/*   Updated: 2023/09/12 17:43:31 by jvets            ###   ########.fr       */
+/*   Updated: 2023/09/12 21:11:49 by jvets            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,18 +54,31 @@ void	print_char(va_list ap, int **c, p_flag flag_ids)
 		**c += write(1, &character, 1);
 }
 
-void	print_u(unsigned int i, int **c)
+void	print_u(unsigned int i, int **c, p_flag flag_ids)
 {
+	int		len;
+	unsigned int	aux;
+
+	len = 0;
+	aux = i;
 	if (i < 0)
 		return ;
-	ft_put_unsigned_nbr(i);
 	if (i == 0)
-		(**c)++;
+		len++;
 	while (i)
 	{
 		i = i / 10;
-		(**c)++;
+		len++;
 	}
+	**c += len;
+	while (flag_ids.min_len > len && flag_ids.align_left == 0)
+	{
+		**c += write(1, " ", 1);
+		flag_ids.min_len--;
+	}
+	ft_put_unsigned_nbr(aux);
+	while (flag_ids.min_len-- > len && flag_ids.align_left == 1)
+		**c += write(1, " ", 1);
 }
 
 void	print_i(int i, int **c, p_flag flag_ids)
@@ -98,21 +111,36 @@ void	print_i(int i, int **c, p_flag flag_ids)
 		**c += write(1, " ", 1);
 }
 
-void	print_p(va_list ap, int **c)
+void	print_p(va_list ap, int **c, p_flag flag_ids)
 {
 	unsigned long	ptr_addr;
+	unsigned long	aux;
+	int		len;
 
 	ptr_addr = (unsigned long)va_arg(ap, void *);
+	aux = ptr_addr;
+	len = 0;
 	if (ptr_addr == 0)
 	{
 		**c += write(1, "(nil)", 5);
 		return ;
 	}
+	while (aux > 0)
+	{
+		aux /= 16;
+		len++;
+	}
+	**c += len;
+	while (flag_ids.min_len > (len + 2) && flag_ids.align_left == 0)
+	{
+		**c += write(1, " ", 1);
+		flag_ids.min_len--;
+	}
 	**c += write(1, "0x", 2);
 	print_hexadec(ptr_addr, LOWER_CASE);
-	while (ptr_addr > 0)
+	while (flag_ids.min_len > (len + 2) && flag_ids.align_left == 1)
 	{
-		ptr_addr /= 16;
-		(**c)++;
+		**c += write(1, " ", 1);
+		flag_ids.min_len--;
 	}
 }
