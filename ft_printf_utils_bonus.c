@@ -6,7 +6,7 @@
 /*   By: jvets <jvets@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 20:43:37 by jvets             #+#    #+#             */
-/*   Updated: 2023/09/13 17:47:57 by jvets            ###   ########.fr       */
+/*   Updated: 2023/09/13 21:50:44 by jvets            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	print_str(va_list ap, int **c, p_flag flag_ids)
 	long int	len_dif;
 
 	str_to_print = va_arg(ap, char *);
-	if (str_to_print == NULL)
+	if (str_to_print == NULL && flag_ids.min_len == 0)
 	{
 		**c += write(1, "(null)", 6);
 		return ;
@@ -26,7 +26,7 @@ void	print_str(va_list ap, int **c, p_flag flag_ids)
 	if (flag_ids.precision == 0)
 	{
 		len_dif = (flag_ids.min_len - ft_strlen(str_to_print));
-		while (len_dif > 0 && flag_ids.align_left == 0)
+		while (len_dif > 0 && (flag_ids.align_left == 0 || flag_ids.space == 1)) //space added to deal with % 1s "" w/o no space is printed
 		{
 			**c += write(1, " ", 1);
 			len_dif--;
@@ -100,9 +100,11 @@ void	print_i(int i, int **c, p_flag flag_ids)
 	int 	len;
 	int	aux;
 	int	len_dif;
+	int	ran_once;
 
 	len = 0;
 	aux = i;
+	ran_once = 0;
 	if (aux <= 0)
 	{
 		aux *= -1;
@@ -113,11 +115,12 @@ void	print_i(int i, int **c, p_flag flag_ids)
 		aux = aux / 10;
 		len++;
 	}
+	aux = i;
 	**c += len;
 	len_dif = (flag_ids.min_len - len);
 	if (flag_ids.precision == 1 && i < 0)
 		len_dif++; // added b/c %.2i -1 resulted in -1 and not -01
-	while (len_dif > 0 && flag_ids.align_left == 0)
+	while (len_dif > 0 && flag_ids.align_left == 0) // include || space = 1 ?
 	{
 		if (flag_ids.zero == 1 || flag_ids.precision == 1)
 		{
@@ -126,12 +129,30 @@ void	print_i(int i, int **c, p_flag flag_ids)
 				write(1, "-", 1);
 				i *= -1;
 			}
-			**c += write(1, "0", 1);
+			if (ran_once++ == 0 && flag_ids.plus == 1 && aux >= 0)
+			{
+				**c += write(1, "+", 1);
+				flag_ids.plus = 2;
+			}
+			else
+				**c += write(1, "0", 1);
 		}
 		else
-			**c += write(1, " ", 1);
+		{
+			if (len_dif == 1 && flag_ids.plus == 1 && aux >= 0)
+			{
+				**c += write(1, "+", 1);
+				flag_ids.plus = 2;
+			}
+			else
+				**c += write(1, " ", 1);
+		}
 		len_dif--;
 	}
+	if (flag_ids.plus == 1 && aux >= 0)
+		**c += write(1, "+", 1);
+	if (flag_ids.space == 1 && flag_ids.plus < 1 && aux >= 0)
+		**c += write(1, " ", 1);
 	ft_putnbr(i);
 	while (len_dif-- > 0 && flag_ids.align_left == 1)
 		**c += write(1, " ", 1);

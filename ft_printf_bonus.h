@@ -6,7 +6,7 @@
 /*   By: jvets <jvets@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/06 21:16:31 by jvets             #+#    #+#             */
-/*   Updated: 2023/09/13 19:18:00 by jvets            ###   ########.fr       */
+/*   Updated: 2023/09/13 20:35:44 by jvets            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ typedef struct p_flags {
 	int	zero;
 	int	precision;
 	int	sharp;
+	int	space;
+	int	plus;
 }	p_flag;
 
 int		ft_printf(const char *str, ...);
