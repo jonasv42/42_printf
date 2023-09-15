@@ -3,6 +3,7 @@ libft/
 *.swn
 *.swo
 printfTester/
+ft_printf_tester/
 *.gch
 a.out
 *.swp

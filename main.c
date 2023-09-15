@@ -6,7 +6,7 @@
 /*   By: jvets <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/07 19:32:02 by jvets             #+#    #+#             */
-/*   Updated: 2023/09/13 21:47:55 by jvets            ###   ########.fr       */
+/*   Updated: 2023/09/14 18:38:31 by jvets            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,18 @@
 
 int	main(void)
 {
+	printf("%1c\n", 'a');
+	ft_printf("%1c\n", 'a');
+	printf("%.11d\n", (int)-2147483648);
+	ft_printf("%.11d\n", (int)-2147483648);
+	printf("%.5d\n", -1214);
+	ft_printf("%.5d\n", -1234);
+	printf("|%.1s|\n", "");
+	ft_printf("|%.1s|\n", "");
+	printf("% 13d\n", 1234);
+	ft_printf("% 13d\n", 1234);
+	printf("%10.13d\n", 1234);
+	ft_printf("%10.13d\n", 1234);
 	printf("% 5i\n", 5);
 	ft_printf("% 5i\n", 5);
 	printf("%+d\n", 0);

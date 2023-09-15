@@ -6,7 +6,7 @@
 /*   By: jvets <jvets@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 20:43:37 by jvets             #+#    #+#             */
-/*   Updated: 2023/09/13 21:50:44 by jvets            ###   ########.fr       */
+/*   Updated: 2023/09/15 16:39:23 by jvets            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,10 @@ void	print_str(va_list ap, int **c, p_flag flag_ids)
 	long int	len_dif;
 
 	str_to_print = va_arg(ap, char *);
-	if (str_to_print == NULL && flag_ids.min_len == 0)
+	if (str_to_print == NULL) // necessário? pq não dá pra compilar o teste com NULL
 	{
-		**c += write(1, "(null)", 6);
+		if (flag_ids.min_len >= 6 || flag_ids.min_len == 0)
+			**c += write(1, "(null)", 6);
 		return ;
 	}
 	if (flag_ids.precision == 0)
@@ -44,7 +45,7 @@ void	print_str(va_list ap, int **c, p_flag flag_ids)
 	}
 	else
 	{
-		while (*str_to_print && flag_ids.min_len-- > 0)
+	while (*str_to_print && flag_ids.min_len-- > 0)
 		{
 			**c += write(1, str_to_print, 1);
 			str_to_print++;
@@ -98,12 +99,12 @@ void	print_u(unsigned int i, int **c, p_flag flag_ids)
 void	print_i(int i, int **c, p_flag flag_ids)
 {
 	int 	len;
-	int	aux;
+	long long int	aux;
 	int	len_dif;
 	int	ran_once;
 
 	len = 0;
-	aux = i;
+	aux = (long long int)i;
 	ran_once = 0;
 	if (aux <= 0)
 	{
@@ -115,21 +116,21 @@ void	print_i(int i, int **c, p_flag flag_ids)
 		aux = aux / 10;
 		len++;
 	}
-	aux = i;
+	aux = (long long int)i;
 	**c += len;
 	len_dif = (flag_ids.min_len - len);
-	if (flag_ids.precision == 1 && i < 0)
+	if (flag_ids.precision == 1 && aux < 0)
 		len_dif++; // added b/c %.2i -1 resulted in -1 and not -01
 	while (len_dif > 0 && flag_ids.align_left == 0) // include || space = 1 ?
 	{
 		if (flag_ids.zero == 1 || flag_ids.precision == 1)
 		{
-			if (i < 0)
+			if (aux < 0)
 			{
 				write(1, "-", 1);
-				i *= -1;
+				aux *= -1;
 			}
-			if (ran_once++ == 0 && flag_ids.plus == 1 && aux >= 0)
+			if (ran_once++ == 0 && flag_ids.plus == 1 && i >= 0)
 			{
 				**c += write(1, "+", 1);
 				flag_ids.plus = 2;
@@ -139,7 +140,7 @@ void	print_i(int i, int **c, p_flag flag_ids)
 		}
 		else
 		{
-			if (len_dif == 1 && flag_ids.plus == 1 && aux >= 0)
+			if (len_dif == 1 && flag_ids.plus == 1 && i >= 0)
 			{
 				**c += write(1, "+", 1);
 				flag_ids.plus = 2;
@@ -153,7 +154,7 @@ void	print_i(int i, int **c, p_flag flag_ids)
 		**c += write(1, "+", 1);
 	if (flag_ids.space == 1 && flag_ids.plus < 1 && aux >= 0)
 		**c += write(1, " ", 1);
-	ft_putnbr(i);
+	ft_putnbr(aux);
 	while (len_dif-- > 0 && flag_ids.align_left == 1)
 		**c += write(1, " ", 1);
 }
