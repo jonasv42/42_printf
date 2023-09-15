@@ -6,7 +6,7 @@
 /*   By: jvets <jvets@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 20:43:37 by jvets             #+#    #+#             */
-/*   Updated: 2023/09/15 17:57:04 by jvets            ###   ########.fr       */
+/*   Updated: 2023/09/15 18:38:30 by jvets            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,7 @@ void	print_i(int i, int **c, p_flag flag_ids)
 		len++;
 	}
 	aux = (long long int)i;
-	**c += len;
+	//**c += len;
 	len_dif = (flag_ids.min_len - len);
 	if (flag_ids.precision == 1 && aux < 0)
 		len_dif++; // added b/c %.2i -1 resulted in -1 and not -01
@@ -155,9 +155,15 @@ void	print_i(int i, int **c, p_flag flag_ids)
 	if (flag_ids.space == 1 && flag_ids.plus < 1 && aux >= 0)
 		**c += write(1, " ", 1);
 	if (i == INT_MIN && flag_ids.precision == 1 && flag_ids.min_len >= len) // solves 8 tests
+	{
 		ft_put_unsigned_nbr((unsigned int)aux);
-	else
+		**c += len;
+	}
+	else if (!(flag_ids.precision == 1 && flag_ids.min_len == 0 && aux == 0)) //solves 10 tests
+	{
 		ft_putnbr(aux);
+		**c += len;
+	}
 	while (len_dif-- > 0 && flag_ids.align_left == 1)
 		**c += write(1, " ", 1);
 }
