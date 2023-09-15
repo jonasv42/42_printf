@@ -6,7 +6,7 @@
 /*   By: jvets <jvets@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/06 21:16:31 by jvets             #+#    #+#             */
-/*   Updated: 2023/09/14 18:52:41 by jvets            ###   ########.fr       */
+/*   Updated: 2023/09/15 17:37:10 by jvets            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 
 # define LOWER_CASE 0
 # define UPPER_CASE 1
+# define INT_MIN -2147483648
 
 typedef struct p_flags {
 	int	align_left;

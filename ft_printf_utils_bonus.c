@@ -6,7 +6,7 @@
 /*   By: jvets <jvets@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 20:43:37 by jvets             #+#    #+#             */
-/*   Updated: 2023/09/15 16:39:23 by jvets            ###   ########.fr       */
+/*   Updated: 2023/09/15 17:57:04 by jvets            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,7 +154,10 @@ void	print_i(int i, int **c, p_flag flag_ids)
 		**c += write(1, "+", 1);
 	if (flag_ids.space == 1 && flag_ids.plus < 1 && aux >= 0)
 		**c += write(1, " ", 1);
-	ft_putnbr(aux);
+	if (i == INT_MIN && flag_ids.precision == 1 && flag_ids.min_len >= len) // solves 8 tests
+		ft_put_unsigned_nbr((unsigned int)aux);
+	else
+		ft_putnbr(aux);
 	while (len_dif-- > 0 && flag_ids.align_left == 1)
 		**c += write(1, " ", 1);
 }
