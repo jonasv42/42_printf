@@ -6,7 +6,7 @@
 /*   By: jvets <jvets@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/06 20:53:07 by jvets             #+#    #+#             */
-/*   Updated: 2023/09/15 18:16:20 by jvets            ###   ########.fr       */
+/*   Updated: 2023/09/15 18:47:52 by jvets            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,8 +130,11 @@ void	print_x(unsigned int n, int **c, int case_, p_flag flag_ids)
 		else
 			**c += write(1, "0X", 2);
 	}
+	if (!(flag_ids.precision == 1 && flag_ids.min_len == 0 && aux == 0)) +14 tests
+	{
 	print_hexadec(aux, case_);
 	**c += len;
+	}
 	while (flag_ids.min_len > len && flag_ids.align_left == 1)
 	{
 		**c += write(1, " ", 1);
