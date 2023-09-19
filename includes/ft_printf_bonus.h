@@ -6,7 +6,7 @@
 /*   By: jvets <jvets@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/06 21:16:31 by jvets             #+#    #+#             */
-/*   Updated: 2023/09/19 18:20:04 by jvets            ###   ########.fr       */
+/*   Updated: 2023/09/19 19:48:43 by jvets            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,5 +52,8 @@ void	fill_struct(char **flags, t_flag *flag_ids);
 int		print_prefix(t_flag *flag_ids, unsigned int *aux, int *len, int case_);
 int		print_str_no_precision(t_flag *flag_ids, char **str_to_print);
 int		get_len(unsigned int i);
+int		get_ptr_len(unsigned long aux, int *len);
+void	get_length(long long int aux, int *len);
+int		format_zeros_precision(t_flag *flag_ids, long long int *aux, int *ran_once, int i);
 
 #endif
