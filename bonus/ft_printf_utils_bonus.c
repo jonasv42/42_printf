@@ -6,7 +6,7 @@
 /*   By: jvets <jvets@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 20:43:37 by jvets             #+#    #+#             */
-/*   Updated: 2023/09/19 19:48:11 by jvets            ###   ########.fr       */
+/*   Updated: 2023/09/19 19:57:02 by jvets            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,6 +149,21 @@ int	format_zeros_precision(t_flag *flag_ids, long long int *aux, int *ran_once, 
 	return (c);
 }
 
+int	format_plus(int len_dif, t_flag *flag_ids, int i)
+{
+	int	c;
+
+	c = 0;
+	if (len_dif == 1 && flag_ids->plus == 1 && i >= 0)
+	{
+		c += write(1, "+", 1);
+		flag_ids->plus = 2;
+	}
+	else
+		c += write(1, " ", 1);
+	return (c);
+}
+
 void	print_i(int i, int **c, t_flag flag_ids)
 {
 	int				len;
@@ -167,15 +182,7 @@ void	print_i(int i, int **c, t_flag flag_ids)
 		if (flag_ids.zero == 1 || flag_ids.precision == 1)
 			**c += format_zeros_precision(&flag_ids, &aux, &ran_once, i);
 		else
-		{
-			if (len_dif == 1 && flag_ids.plus == 1 && i >= 0)
-			{
-				**c += write(1, "+", 1);
-				flag_ids.plus = 2;
-			}
-			else
-				**c += write(1, " ", 1);
-		}
+			**c += format_plus(len_dif, &flag_ids, i);
 		len_dif--;
 	}
 	if (flag_ids.plus == 1 && aux >= 0)
