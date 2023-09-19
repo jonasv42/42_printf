@@ -1,43 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putnbr.c                                        :+:      :+:    :+:   */
+/*   ft_strchr_bonus.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jvets <jvets@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/10 20:48:44 by jvets             #+#    #+#             */
-/*   Updated: 2023/09/11 17:57:47 by jvets            ###   ########.fr       */
+/*   Created: 2023/07/23 15:00:09 by jvets             #+#    #+#             */
+/*   Updated: 2023/09/19 16:51:41 by jvets            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "../includes/ft_printf_bonus.h"
 
-void	ft_putnbr(int nb)
+char	*ft_strchr(const char *s, int c)
 {
-	char	c;
-
-	if (nb == -2147483648)
+	while (*s)
 	{
-		write(1, "-2147483648", 11);
-		return ;
+		if (*s == (unsigned char)c)
+			return ((char *)s);
+		s++;
 	}
-	if (nb < 0)
-	{
-		write(1, "-", 1);
-		nb = -nb;
-	}
-	if (nb > 9)
-		ft_putnbr(nb / 10);
-	c = (nb % 10) + '0';
-	write(1, &c, 1);
-}
-
-void	ft_put_unsigned_nbr(unsigned int nb)
-{
-	char	c;
-
-	if (nb > 9)
-		ft_put_unsigned_nbr(nb / 10);
-	c = (nb % 10) + '0';
-	write(1, &c, 1);
+	if (*s == (unsigned char)c)
+		return ((char *)s);
+	return (NULL);
 }

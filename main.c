@@ -6,7 +6,7 @@
 /*   By: jvets <jvets@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/07 19:32:02 by jvets             #+#    #+#             */
-/*   Updated: 2023/09/15 18:28:18 by jvets            ###   ########.fr       */
+/*   Updated: 2023/09/19 16:35:08 by jvets            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,19 @@
 
 int	main(void)
 {
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wformat"
+
+	printf("pf: %32s\n", NULL);
+	ft_printf("ft: %32s\n", NULL);
+
+
+#pragma GCC diagnostic pop
+
+	printf("%7.5s\n", "bombastic");
+	ft_printf("%7.5s\n", "bombastic");
+	printf("pf: %5%\n");
+	ft_printf("ft: %5%\n");
 	printf("pf: %.0i\n", 2);
 	ft_printf("ft: %.0i\n", 2);
 	printf("pf: %.0i\n", 0);

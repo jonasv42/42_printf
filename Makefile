@@ -6,50 +6,52 @@
 #    By: jvets <jvets@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/09/06 17:41:05 by jvets             #+#    #+#              #
-#    Updated: 2023/09/13 20:12:11 by jvets            ###   ########.fr        #
+#    Updated: 2023/09/18 22:38:09 by jvets            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = libftprintf.a
-SOURCES = ft_printf.c ft_printf_utils.c ft_putnbr.c
-FLAGS = -Wall -Werror -Wextra
-LIBFT = libft/libft.a
-OBJ_DIR = obj
-OBJECTS = obj/ft_printf.o obj/ft_printf_utils.o obj/ft_putnbr.o
-BONUS_SOURCES = ft_printf_bonus.c ft_printf_utils_bonus.c ft_putnbr_bonus.c
-BONUS_OBJECTS = ft_printf_bonus.o ft_printf_utils_bonus.o ft_putnbr_bonus.o
-BONUS_OBJ_DIR = bonus-obj
+NAME		=	libftprintf.a
+LIBS		=	-lft
+INCLUDES	=	-I ./includes
+CFLAGS		=	-Wall -Wextra -Werror -g3 $(INCLUDES)
+FILES		=	ft_printf.c ft_putnbr.c ft_printf_utils.c ft_strchr.c ft_strlen.c \
+				ft_substr.c ft_atoi.c
+FILESB		=	ft_printf_bonus.c ft_putnbr_bonus.c ft_printf_utils_bonus.c \
+				ft_strchr_bonus.c ft_strlen_bonus.c ft_substr_bonus.c ft_atoi_bonus.c
+SRCS		=	$(addprefix sources/, $(FILES))
+BSRCS		=	$(addprefix bonus/, $(FILESB))
+OBJS		=	$(SRCS:.c=.o)
+BOBJ		=	$(BSRCS:.c=.o)
+AR			=	ar -rcs
+CC			=	cc
 
 all: $(NAME)
 
-$(OBJ_DIR)/%.o: %.c
-	mkdir -p $(OBJ_DIR)
-	cc $(FLAGS) -c $< -o $@ -I ft_printf.h
+$(NAME): $(OBJS)
+	$(AR) $(NAME) $(OBJS)
 
-$(NAME): $(OBJECTS) $(LIBFT)
-	cp $(LIBFT) $(NAME)
-	ar -rcs $(NAME) $^
+%.o:%.c
+	$(CC) $(CFLAGS) -c $< -o $@
 
-$(LIBFT):
-	make -C libft
+bonus: fclean $(BOBJ)
+	$(AR) $(NAME) $(BOBJ)
 
-bonus: $(LIBFT) $(BONUS_OBJECTS)
-	make OBJECTS="$(BONUS_OBJECTS)"
-
-$(BONUS_OBJ_DIR)/%.o: $(BONUS_SOURCES)
-	mkdir -p $(BONUS_OBJ_DIR)
-	cc $(FLAGS) -c $< -o $@ -I ft_printf_bonus.h
-
-main: bonus
-	cc -g3 $(FLAGS) main.c $(BONUS_SOURCES) ft_printf_bonus.h libftprintf.a
 clean:
-	rm -rf $(OBJ_DIR) $(BONUS_OBJ_DIR)
-	make -C libft clean
+	rm -f $(OBJS)
 
 fclean: clean
 	rm -f $(NAME)
-	make -C libft fclean
+
+cleanbonus: 
+	rm -f $(BOBJ)
+
+fcleanbonus: cleanbonus fclean
+
+rebonus: fcleanbonus bonus 
 
 re: fclean all
 
-.PHONY: all bonus main clean fclean re
+main: bonus
+	$(CC) $(CFLAGS) main.c $(BSRCS) $(INCLUDES)
+
+.PHONY: all bonus clean fclean cleanbonus fcleanbonus rebonus re

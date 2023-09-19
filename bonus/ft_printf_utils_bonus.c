@@ -6,46 +6,28 @@
 /*   By: jvets <jvets@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 20:43:37 by jvets             #+#    #+#             */
-/*   Updated: 2023/09/15 18:45:40 by jvets            ###   ########.fr       */
+/*   Updated: 2023/09/19 18:22:05 by jvets            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf_bonus.h"
+#include "../includes/ft_printf_bonus.h"
 
-void	print_str(va_list ap, int **c, p_flag flag_ids)
+void	print_str(va_list ap, int **c, t_flag flag_ids)
 {
-	char	*str_to_print;
-	long int	len_dif;
+	char		*str_to_print;
 
 	str_to_print = va_arg(ap, char *);
-	if (str_to_print == NULL) // necessário? pq não dá pra compilar o teste com NULL
+	if (str_to_print == NULL)
 	{
 		if (flag_ids.min_len >= 6 || flag_ids.min_len == 0)
 			**c += write(1, "(null)", 6);
 		return ;
 	}
 	if (flag_ids.precision == 0)
-	{
-		len_dif = (flag_ids.min_len - ft_strlen(str_to_print));
-		while (len_dif > 0 && (flag_ids.align_left == 0 || flag_ids.space == 1)) //space added to deal with % 1s "" w/o no space is printed
-		{
-			**c += write(1, " ", 1);
-			len_dif--;
-		}	
-		while (*str_to_print)
-		{
-			**c += write(1, str_to_print, 1);
-			str_to_print++;
-		}
-		while (len_dif > 0 && flag_ids.align_left == 1)
-		{
-			**c += write(1, " ", 1);	
-			len_dif--;
-		}
-	}
+		**c += print_str_no_precision(&flag_ids, &str_to_print);
 	else
 	{
-	while (*str_to_print && flag_ids.min_len-- > 0)
+		while (*str_to_print && flag_ids.min_len-- > 0)
 		{
 			**c += write(1, str_to_print, 1);
 			str_to_print++;
@@ -53,7 +35,32 @@ void	print_str(va_list ap, int **c, p_flag flag_ids)
 	}	
 }
 
-void	print_char(va_list ap, int **c, p_flag flag_ids)
+int	print_str_no_precision(t_flag *flag_ids, char **str_to_print)
+{
+	long int	len_dif;
+	int			c;
+
+	c = 0;
+	len_dif = (flag_ids->min_len - ft_strlen(*str_to_print));
+	while (len_dif > 0 && (flag_ids->align_left == 0 || flag_ids->space == 1))
+	{
+		c += write(1, " ", 1);
+		len_dif--;
+	}	
+	while (**str_to_print)
+	{
+		c += write(1, *str_to_print, 1);
+		(*str_to_print)++;
+	}
+	while (len_dif > 0 && flag_ids->align_left == 1)
+	{
+		c += write(1, " ", 1);
+		len_dif--;
+	}
+	return (c);
+}
+
+void	print_char(va_list ap, int **c, t_flag flag_ids)
 {
 	int	character;
 
@@ -66,23 +73,15 @@ void	print_char(va_list ap, int **c, p_flag flag_ids)
 		**c += write(1, &character, 1);
 }
 
-void	print_u(unsigned int i, int **c, p_flag flag_ids)
+void	print_u(unsigned int i, int **c, t_flag flag_ids)
 {
-	int		len;
+	int				len;
 	unsigned int	aux;
 
-	len = 0;
 	aux = i;
 	if (i < 0)
 		return ;
-	if (i == 0)
-		len++;
-	while (i)
-	{
-		i = i / 10;
-		len++;
-	}
-	//**c += len;
+	len = get_len(i);
 	while (flag_ids.min_len > len && (flag_ids.align_left == 0 || flag_ids.precision == 1))
 	{
 		if (flag_ids.zero == 1 || flag_ids.precision == 1)
@@ -91,7 +90,7 @@ void	print_u(unsigned int i, int **c, p_flag flag_ids)
 			**c += write(1, " ", 1);
 		flag_ids.min_len--;
 	}
-	if (!(flag_ids.precision == 1 && flag_ids.min_len == 0 && aux == 0)) // +8 tests
+	if (!(flag_ids.precision == 1 && flag_ids.min_len == 0 && aux == 0))
 	{
 		ft_put_unsigned_nbr(aux);
 		**c += len;
@@ -100,12 +99,27 @@ void	print_u(unsigned int i, int **c, p_flag flag_ids)
 		**c += write(1, " ", 1);
 }
 
-void	print_i(int i, int **c, p_flag flag_ids)
+int	get_len(unsigned int i)
 {
-	int 	len;
+	int	len;
+
+	len = 0;
+	if (i == 0)
+		len++;
+	while (i)
+	{
+		i = i / 10;
+		len++;
+	}
+	return (len);
+}
+
+void	print_i(int i, int **c, t_flag flag_ids)
+{
+	int				len;
 	long long int	aux;
-	int	len_dif;
-	int	ran_once;
+	int				len_dif;
+	int				ran_once;
 
 	len = 0;
 	aux = (long long int)i;
@@ -121,11 +135,10 @@ void	print_i(int i, int **c, p_flag flag_ids)
 		len++;
 	}
 	aux = (long long int)i;
-	//**c += len;
 	len_dif = (flag_ids.min_len - len);
 	if (flag_ids.precision == 1 && aux < 0)
-		len_dif++; // added b/c %.2i -1 resulted in -1 and not -01
-	while (len_dif > 0 && flag_ids.align_left == 0) // include || space = 1 ?
+		len_dif++;
+	while (len_dif > 0 && flag_ids.align_left == 0)
 	{
 		if (flag_ids.zero == 1 || flag_ids.precision == 1)
 		{
@@ -158,12 +171,12 @@ void	print_i(int i, int **c, p_flag flag_ids)
 		**c += write(1, "+", 1);
 	if (flag_ids.space == 1 && flag_ids.plus < 1 && aux >= 0)
 		**c += write(1, " ", 1);
-	if (i == INT_MIN && flag_ids.precision == 1 && flag_ids.min_len >= len) // solves 8 tests
+	if (i == INT_MIN && flag_ids.precision == 1 && flag_ids.min_len >= len)
 	{
 		ft_put_unsigned_nbr((unsigned int)aux);
 		**c += len;
 	}
-	else if (!(flag_ids.precision == 1 && flag_ids.min_len == 0 && aux == 0)) //solves 10 tests
+	else if (!(flag_ids.precision == 1 && flag_ids.min_len == 0 && aux == 0))
 	{
 		ft_putnbr(aux);
 		**c += len;
@@ -172,11 +185,11 @@ void	print_i(int i, int **c, p_flag flag_ids)
 		**c += write(1, " ", 1);
 }
 
-void	print_p(va_list ap, int **c, p_flag flag_ids)
+void	print_p(va_list ap, int **c, t_flag flag_ids)
 {
 	unsigned long	ptr_addr;
 	unsigned long	aux;
-	int		len;
+	int				len;
 
 	ptr_addr = (unsigned long)va_arg(ap, void *);
 	aux = ptr_addr;

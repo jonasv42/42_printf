@@ -6,11 +6,11 @@
 /*   By: jvets <jvets@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/06 20:53:07 by jvets             #+#    #+#             */
-/*   Updated: 2023/09/11 17:59:28 by jvets            ###   ########.fr       */
+/*   Updated: 2023/09/18 16:02:08 by jvets            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "../includes/ft_printf.h"
 
 int	ft_printf(const char *str, ...)
 {

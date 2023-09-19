@@ -6,11 +6,11 @@
 /*   By: jvets <jvets@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/06 20:53:07 by jvets             #+#    #+#             */
-/*   Updated: 2023/09/15 18:47:52 by jvets            ###   ########.fr       */
+/*   Updated: 2023/09/19 17:51:17 by jvets            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf_bonus.h"
+#include "../includes/ft_printf_bonus.h"
 
 int	ft_printf(const char *str, ...)
 {
@@ -37,8 +37,8 @@ int	ft_printf(const char *str, ...)
 
 void	id_specifier(const char **str, va_list ap, int *c)
 {
-	int	i;
-	p_flag	flag_ids;
+	int		i;
+	t_flag	flag_ids;
 
 	i = 0;
 	(*str)++;
@@ -62,11 +62,11 @@ void	id_specifier(const char **str, va_list ap, int *c)
 		print_x(va_arg(ap, unsigned int), &c, UPPER_CASE, flag_ids);
 }
 
-p_flag	process_flags(char *flags)
+t_flag	process_flags(char *flags)
 {
-	int	i;
+	int		i;
 	char	*ptr_to_free;
-	p_flag	flag_ids;
+	t_flag	flag_ids;
 
 	i = 0;
 	flag_ids.align_left = 0;
@@ -77,34 +77,39 @@ p_flag	process_flags(char *flags)
 	flag_ids.space = 0;
 	flag_ids.plus = 0;
 	ptr_to_free = flags;
-	while (*flags && (((*flags) < '1') || ((*flags) > '9')))
-	{
-		if ((*flags) == '-')
-			flag_ids.align_left = 1;
-		if ((*flags) == '0')
-			flag_ids.zero = 1;
-		if ((*flags) == '.') // what about interaction with 0?
-			flag_ids.precision = 1;
-		if ((*flags) == '#')
-			flag_ids.sharp = 1;
-		if ((*flags) == ' ')
-			flag_ids.space = 1;
-		if ((*flags) == '+')
-		{
-			flag_ids.plus = 1;
-			flag_ids.space = 1;
-		}
-		flags++;
-	}
-	flag_ids.min_len = ft_atoi(flags); // change name of min_len to include precision
+	fill_struct(&flags, &flag_ids);
+	flag_ids.min_len = ft_atoi(flags);
 	free(ptr_to_free);
 	return (flag_ids);
 }
 
-void	print_x(unsigned int n, int **c, int case_, p_flag flag_ids)
+void	fill_struct(char **flags, t_flag *flag_ids)
+{
+	while (**flags && (((**flags) < '1') || ((**flags) > '9')))
+	{
+		if ((**flags) == '-')
+			flag_ids->align_left = 1;
+		if ((**flags) == '0')
+			flag_ids->zero = 1;
+		if ((**flags) == '.')
+			flag_ids->precision = 1;
+		if ((**flags) == '#')
+			flag_ids->sharp = 1;
+		if ((**flags) == ' ')
+			flag_ids->space = 1;
+		if ((**flags) == '+')
+		{
+			flag_ids->plus = 1;
+			flag_ids->space = 1;
+		}
+		(*flags)++;
+	}
+}
+
+void	print_x(unsigned int n, int **c, int case_, t_flag flag_ids)
 {
 	unsigned int	aux;
-	int		len;
+	int				len;
 
 	aux = n;
 	len = 0;
@@ -115,31 +120,41 @@ void	print_x(unsigned int n, int **c, int case_, p_flag flag_ids)
 		n /= 16;
 		len++;
 	}
-	while (flag_ids.min_len > len && (flag_ids.align_left == 0 || flag_ids.precision == 1))
+	**c += print_prefix(&flag_ids, &aux, &len, case_);
+	if (!(flag_ids.precision == 1 && flag_ids.min_len == 0 && aux == 0))
 	{
-		if (flag_ids.zero == 1 || flag_ids.precision == 1)
-			**c += write(1, "0", 1);
-		else
-			**c += write(1, " ", 1);
-		flag_ids.min_len--;
-	}
-	if (flag_ids.sharp == 1 && aux != 0)
-	{
-		if (case_ == LOWER_CASE)
-			**c += write(1, "0x", 2);
-		else
-			**c += write(1, "0X", 2);
-	}
-	if (!(flag_ids.precision == 1 && flag_ids.min_len == 0 && aux == 0)) +14 tests
-	{
-	print_hexadec(aux, case_);
-	**c += len;
+		print_hexadec(aux, case_);
+		**c += len;
 	}
 	while (flag_ids.min_len > len && flag_ids.align_left == 1)
 	{
 		**c += write(1, " ", 1);
 		flag_ids.min_len--;
 	}
+}
+
+int	print_prefix(t_flag *flag_ids, unsigned int *aux, int *len, int case_)
+{
+	int	c;
+
+	c = 0;
+	while (flag_ids->min_len > *len && (flag_ids->align_left == 0
+			|| flag_ids->precision == 1))
+	{
+		if (flag_ids->zero == 1 || flag_ids->precision == 1)
+			c += write(1, "0", 1);
+		else
+			c += write(1, " ", 1);
+		flag_ids->min_len--;
+	}
+	if (flag_ids->sharp == 1 && *aux != 0)
+	{
+		if (case_ == LOWER_CASE)
+			c += write(1, "0x", 2);
+		else
+			c += write(1, "0X", 2);
+	}
+	return (c);
 }
 
 void	print_hexadec(unsigned long n, int case_)

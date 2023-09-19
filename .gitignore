@@ -1,4 +1,5 @@
 libft/
+.vscode/
 *.o
 *.swn
 *.swo
