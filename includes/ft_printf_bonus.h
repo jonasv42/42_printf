@@ -6,7 +6,7 @@
 /*   By: jvets <jvets@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/06 21:16:31 by jvets             #+#    #+#             */
-/*   Updated: 2023/09/19 19:56:08 by jvets            ###   ########.fr       */
+/*   Updated: 2023/09/19 20:44:50 by jvets            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,5 +56,7 @@ int		get_ptr_len(unsigned long aux, int *len);
 void	get_length(long long int aux, int *len);
 int		format_zeros_precision(t_flag *flag_ids, long long int *aux, int *ran_once, int i);
 int		format_plus(int len_dif, t_flag *flag_ids, int i);
+int     write_spaces(int len_dif, t_flag flag_ids);
+int     choose_putnbr(int i, t_flag flag_ids, int len, long long int aux);
 
 #endif

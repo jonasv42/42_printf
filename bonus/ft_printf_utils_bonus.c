@@ -6,7 +6,7 @@
 /*   By: jvets <jvets@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 20:43:37 by jvets             #+#    #+#             */
-/*   Updated: 2023/09/19 19:57:02 by jvets            ###   ########.fr       */
+/*   Updated: 2023/09/19 20:47:17 by jvets            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,44 +164,63 @@ int	format_plus(int len_dif, t_flag *flag_ids, int i)
 	return (c);
 }
 
-void	print_i(int i, int **c, t_flag flag_ids)
+void    print_i(int i, int **c, t_flag flag_ids)
 {
-	int				len;
-	long long int	aux;
-	int				len_dif;
-	int				ran_once;
+        int                             len;
+        long long int   aux;
+        int                             len_dif;
+        int                             ran_once;
 
-	aux = (long long int)i;
-	ran_once = 0;
-	get_length(aux, &len);
-	len_dif = (flag_ids.min_len - len);
-	if (flag_ids.precision == 1 && aux < 0)
-		len_dif++;
-	while (len_dif > 0 && flag_ids.align_left == 0)
-	{
-		if (flag_ids.zero == 1 || flag_ids.precision == 1)
-			**c += format_zeros_precision(&flag_ids, &aux, &ran_once, i);
-		else
-			**c += format_plus(len_dif, &flag_ids, i);
-		len_dif--;
-	}
-	if (flag_ids.plus == 1 && aux >= 0)
-		**c += write(1, "+", 1);
-	if (flag_ids.space == 1 && flag_ids.plus < 1 && aux >= 0)
-		**c += write(1, " ", 1);
-	if (i == INT_MIN && flag_ids.precision == 1 && flag_ids.min_len >= len)
-	{
-		ft_put_unsigned_nbr((unsigned int)aux);
-		**c += len;
-	}
-	else if (!(flag_ids.precision == 1 && flag_ids.min_len == 0 && aux == 0))
-	{
-		ft_putnbr(aux);
-		**c += len;
-	}
-	while (len_dif-- > 0 && flag_ids.align_left == 1)
-		**c += write(1, " ", 1);
+        aux = (long long int)i;
+        ran_once = 0;
+        get_length(aux, &len);
+        len_dif = (flag_ids.min_len - len);
+        if (flag_ids.precision == 1 && aux < 0)
+                len_dif++;
+        while (len_dif > 0 && flag_ids.align_left == 0)
+        {
+                if (flag_ids.zero == 1 || flag_ids.precision == 1)
+                        **c += format_zeros_precision(&flag_ids, &aux, &ran_once, i); 
+                else
+                        **c += format_plus(len_dif, &flag_ids, i); 
+                len_dif--;
+        }
+        if (flag_ids.plus == 1 && aux >= 0)
+                **c += write(1, "+", 1); 
+        if (flag_ids.space == 1 && flag_ids.plus < 1 && aux >= 0)
+                **c += write(1, " ", 1); 
+        **c += choose_putnbr(i, flag_ids, len, aux);
+        **c += write_spaces(len_dif, flag_ids);
 }
+
+int     write_spaces(int len_dif, t_flag flag_ids)
+{
+        int     c;
+
+        c = 0;
+        while (len_dif-- > 0 && flag_ids.align_left == 1)
+        c += write(1, " ", 1);
+        return (c);
+}
+
+int     choose_putnbr(int i, t_flag flag_ids, int len, long long int aux)
+{
+        int     c;  
+
+        c = 0;
+        if (i == INT_MIN && flag_ids.precision == 1 && flag_ids.min_len >= len)
+        {
+                ft_put_unsigned_nbr((unsigned int)aux);
+                c += len;
+        }
+        else if (!(flag_ids.precision == 1 && flag_ids.min_len == 0 && aux == 0)) 
+        {
+                ft_putnbr(aux);
+                c += len;
+        }
+        return (c);
+}
+
 
 void	print_p(va_list ap, int **c, t_flag flag_ids)
 {
