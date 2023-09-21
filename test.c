@@ -6,11 +6,11 @@
 /*   By: jvets <jvets@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/07 19:32:02 by jvets             #+#    #+#             */
-/*   Updated: 2023/09/20 18:35:47 by jvets            ###   ########.fr       */
+/*   Updated: 2023/09/20 22:40:39 by jvets            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "./includes/ft_printf.h"
 #include <stdio.h>
 
 int	main(void)
@@ -54,18 +54,54 @@ int	main(void)
 	
 
 	printf("BONUS\n\n");
-	printf("%5c\n", 'j');
-	ft_printf("%5c\n", 'j');
-	printf("%-5c%c\n", 'j', '|');
-	ft_printf("%-5c%c\n", 'j', '|');
-	printf("%10c\n", 'a');
-	ft_printf("%10c\n\n", 'a');
-	printf("%5c\n", 'a');
-	ft_printf("%5c\n\n", 'a');
-	printf("%-5i|\n", 50);
-	ft_printf("%-5i|\n", 50);
-	printf("%5i\n", 50);
-	ft_printf("%5i\n", 50);
+	printf("flag 0\n");
+	printf("%01d\n", 0);
+	ft_printf("%01d\n\n", 0);
+	printf("%04d\n", 9);
+	ft_printf("%04d\n\n", 9);
+	printf("%010d\n", -42);
+	ft_printf("%010d\n\n\n", -42);
+	printf("%01i\n", -1);
+	ft_printf("%01i\n\n", -1);
+	printf("%010i\n", 15);
+	ft_printf("%010i\n\n", 15);
+	printf("%03i\n", -101);
+	ft_printf("%03i\n\n\n", -101);
+
+	printf("flag .\n");
+	printf("%.10d\n", 42);
+	ft_printf("%.10d\n\n", 42);
+	printf("%.3s\n", "abcdefg");
+	ft_printf("%.3s\n\n\n", "abcdefg");
+
+	printf("flag -\n");
+	printf("%-10d|\n", 42);
+	ft_printf("%-10d|\n\n\n", 42);
+	
+	printf("flag #\n");
+	printf("%#x\n", 42);
+	ft_printf("%#x\n\n", 42);
+	printf("%#X\n", 42);
+	ft_printf("%#X\n\n\n", 42);
+
+	printf("flag ' '\n");
+	printf("|% d|\n", 42);
+	ft_printf("|% d|\n\n", 42);
+	printf("|% d|\n", -42);
+	ft_printf("|% d|\n\n", -42);
+	printf("|% i|\n", 42);
+	ft_printf("|% i|\n\n", 42);
+	printf("|% i|\n", -42);
+	ft_printf("|% i|\n\n\n", -42);
+
+	printf("flag +\n");
+	printf("%+d\n", 42);
+	ft_printf("%+d\n\n", 42);
+	printf("%+d\n", 0);
+	ft_printf("%+d\n\n", 0);
+	printf("%+d\n", -10);
+	ft_printf("%+d\n\n", -10);
+
 
 	return (0);
 }
